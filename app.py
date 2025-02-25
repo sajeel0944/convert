@@ -1,9 +1,22 @@
 import streamlit as st
 
 
-st.title("📏 Length Converter")
+st.title("📏  Unit Converter")
 
-units = ["Meter", "Centimeter", "Kilometer", "Millimeter", "Inch", "Foot", "Yard", "Mile"]
+categories = ["Length", "Weight", "Temperature", "Volume", "Time", "Speed", "Pressure"]
+selected_category = st.selectbox("Choose a Category", categories)
+
+unit_con = {
+     "Length": ["Meter", "Centimeter", "Kilometer", "Millimeter", "Inch", "Foot", "Yard", "Mile"],
+    "Weight": ["Kilogram", "Gram", "Pound", "Ounce", "Ton"],
+    "Temperature": ["Celsius", "Fahrenheit", "Kelvin"],
+    "Volume": ["Liter", "Milliliter", "Cubic Meter", "Gallon"],
+    "Time": ["Second", "Minute", "Hour", "Day"],
+    "Speed": ["Meter/Second", "Kilometer/Hour", "Mile/Hour"],
+    "Pressure": ["Pascal", "Bar", "Atmosphere"]
+}
+
+units = unit_con[selected_category]
 
 col1,col2 = st.columns(2)
 
@@ -20,16 +33,39 @@ input_value = st.number_input(f"Enter value in {form_unit}", value=1)
 if st.button("convert"):
 
     conversion = {
-    "Meter": {"Meter": 1, "Centimeter": 100, "Kilometer": 0.001, "Millimeter": 1000, "Inch": 39.3701, "Foot": 3.28084, "Yard": 1.09361, "Mile": 0.000621371},
-    "Centimeter": {"Meter": 0.01, "Centimeter": 1, "Kilometer": 0.00001, "Millimeter": 10, "Inch": 0.393701, "Foot": 0.0328084, "Yard": 0.0109361, "Mile": 0.00000621371},
-    "Kilometer": {"Meter": 1000, "Centimeter": 100000, "Kilometer": 1, "Millimeter": 1e6, "Inch": 39370.1, "Foot": 3280.84, "Yard": 1093.61, "Mile": 0.621371},
-    "Millimeter": {"Meter": 0.001, "Centimeter": 0.1, "Kilometer": 1e-6, "Millimeter": 1, "Inch": 0.0393701, "Foot": 0.00328084, "Yard": 0.00109361, "Mile": 6.2137e-7},
-    "Inch": {"Meter": 0.0254, "Centimeter": 2.54, "Kilometer": 0.0000254, "Millimeter": 25.4, "Inch": 1, "Foot": 0.0833333, "Yard": 0.0277778, "Mile": 0.0000157828},
-    "Foot": {"Meter": 0.3048, "Centimeter": 30.48, "Kilometer": 0.0003048, "Millimeter": 304.8, "Inch": 12, "Foot": 1, "Yard": 0.333333, "Mile": 0.000189394},
-    "Yard": {"Meter": 0.9144, "Centimeter": 91.44, "Kilometer": 0.0009144, "Millimeter": 914.4, "Inch": 36, "Foot": 3, "Yard": 1, "Mile": 0.000568182},
-    "Mile": {"Meter": 1609.34, "Centimeter": 160934, "Kilometer": 1.60934, "Millimeter": 1.609e6, "Inch": 63360, "Foot": 5280, "Yard": 1760, "Mile": 1},
-}
+         "Length": {
+            "Meter": {"Meter": 1, "Centimeter": 100, "Kilometer": 0.001, "Millimeter": 1000, "Inch": 39.37, "Foot": 3.28084, "Yard": 1.09361, "Mile": 0.000621371},
+            "Centimeter": {"Meter": 0.01, "Centimeter": 1, "Kilometer": 0.00001, "Millimeter": 10, "Inch": 0.393701, "Foot": 0.0328084, "Yard": 0.0109361, "Mile": 0.00000621371},
+        },
+        "Weight": {
+            "Kilogram": {"Kilogram": 1, "Gram": 1000, "Pound": 2.20462, "Ounce": 35.274, "Ton": 0.001},
+            "Gram": {"Kilogram": 0.001, "Gram": 1, "Pound": 0.00220462, "Ounce": 0.035274, "Ton": 0.000001},
+        },
+        "Temperature": {
+            "Celsius": {"Celsius": lambda x: x, "Fahrenheit": lambda x: (x * 9/5) + 32, "Kelvin": lambda x: x + 273.15},
+            "Fahrenheit": {"Celsius": lambda x: (x - 32) * 5/9, "Fahrenheit": lambda x: x, "Kelvin": lambda x: (x - 32) * 5/9 + 273.15},
+        },
+        "Volume": {
+            "Liter": {"Liter": 1, "Milliliter": 1000, "Cubic Meter": 0.001, "Gallon": 0.264172},
+            "Milliliter": {"Liter": 0.001, "Milliliter": 1, "Cubic Meter": 0.000001, "Gallon": 0.000264172},
+        },
+        "Time": {
+            "Second": {"Second": 1, "Minute": 1/60, "Hour": 1/3600, "Day": 1/86400},
+            "Minute": {"Second": 60, "Minute": 1, "Hour": 1/60, "Day": 1/1440},
+        },
+        "Speed": {
+            "Meter/Second": {"Meter/Second": 1, "Kilometer/Hour": 3.6, "Mile/Hour": 2.23694},
+            "Kilometer/Hour": {"Meter/Second": 0.277778, "Kilometer/Hour": 1, "Mile/Hour": 0.621371},
+        },
+        "Pressure": {
+            "Pascal": {"Pascal": 1, "Bar": 0.00001, "Atmosphere": 9.8692e-6},
+            "Bar": {"Pascal": 100000, "Bar": 1, "Atmosphere": 0.986923},
+        }
+    }
     
-    convert_value = input_value * conversion[form_unit][to_unit]
+    if selected_category == "Temperature":
+        convert_value = conversion[selected_category][form_unit][to_unit](input_value)
+    else:
+        convert_value = input_value * conversion[selected_category][form_unit][to_unit]
 
     st.markdown(f"## {input_value} {form_unit} = {convert_value:.5f} {to_unit}")
