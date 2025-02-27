@@ -121,7 +121,7 @@ elif st.session_state.selected_mode == "Ai Convert Unit":
 
 
     DEEPSEEK_API_URL = "https://openrouter.ai/api/v1/chat/completions" # ye api ka endpoint hai
-    API_KEY = "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" # is ky andar .streamlit\secrets.toml sy R1 ki key arahe hai
+    API_KEY = "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" # is ky andar .streamlit\secrets.toml sy R1 ki key arahe hai
 
     st.title("Convert Unit With The Help Of Ai")
 
