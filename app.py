@@ -3,6 +3,9 @@ import requests
 import json
 
 
+st.set_page_config(page_title=" 🧪 SUK UNIT CONVERTER")
+
+
 st.title("📏 Unit Converter")
 
 # agar user dropdown menu ya kise button par click karry ga to app reload ho ta hai ye page app ko reload sy lokta hai
@@ -121,9 +124,9 @@ elif st.session_state.selected_mode == "Ai Convert Unit":
 
 
     DEEPSEEK_API_URL = "https://openrouter.ai/api/v1/chat/completions" # ye api ka endpoint hai
-    API_KEY = st.secrets["API_KEY"] # is ky andar .streamlit\secrets.toml sy R1 ki key arahe hai
-
+    API_KEY = st.secrets["API_KEY"]
     st.title("Convert Unit With The Help Of Ai")
+    st.write(API_KEY)
 
     user_input = st.text_input("Enter") # is ky andar user prompt dy ga
 
