@@ -126,7 +126,6 @@ elif st.session_state.selected_mode == "Ai Convert Unit":
     DEEPSEEK_API_URL = "https://openrouter.ai/api/v1/chat/completions" # ye api ka endpoint hai
     API_KEY = st.secrets["API_KEY"]
     st.title("Convert Unit With The Help Of Ai")
-    st.write(API_KEY)
 
     user_input = st.text_input("Enter") # is ky andar user prompt dy ga
 
